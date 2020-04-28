@@ -7,4 +7,5 @@ Entire server
 Apache server
 
 -Need to create /results/boinc2docker with max rights
+
 -Need to increase upload file limit size (~x4) in ~/project/templates/boinc2docker_out
