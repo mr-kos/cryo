@@ -34,6 +34,7 @@
         <daily_result_quota>500</daily_result_quota>
         <one_result_per_user_per_wu>1</one_result_per_user_per_wu>
         <max_wus_to_send>50</max_wus_to_send>
+	<enable_assignment>1</enable_assignment>
     </config>
     <tasks>
         <task>

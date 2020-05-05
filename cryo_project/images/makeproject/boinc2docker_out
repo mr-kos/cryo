@@ -6,7 +6,7 @@
         <name><OUTFILE_0/>.tgz</name>
         <generated_locally/>
         <upload_when_present/>
-        <max_nbytes>671088640</max_nbytes> <!-- 500Mb -->
+        <max_nbytes>434217728</max_nbytes>
         <url><UPLOAD_URL/></url>        
     </file_info>
 
