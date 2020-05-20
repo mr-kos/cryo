@@ -33,7 +33,10 @@
         <db_host>mysql</db_host>
         <daily_result_quota>500</daily_result_quota>
         <one_result_per_user_per_wu>1</one_result_per_user_per_wu>
-        <max_wus_to_send>50</max_wus_to_send>
+	<gpu_multiplier>0</gpu_multiplier>
+	<max_ncpus>2</max_ncpus>	
+        <max_wus_to_send>1</max_wus_to_send>
+        <max_wus_in_progress>1</max_wus_in_progress>
 	<enable_assignment>1</enable_assignment>
 	<httpd_user>root</httpd_user>
     </config>
