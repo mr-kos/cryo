@@ -32,7 +32,7 @@
         <min_sendwork_interval>6</min_sendwork_interval>
         <db_host>mysql</db_host>
         <daily_result_quota>500</daily_result_quota>
-        <one_result_per_user_per_wu>1</one_result_per_user_per_wu>
+        <one_result_per_user_per_wu>0</one_result_per_user_per_wu>
 	<gpu_multiplier>0</gpu_multiplier>
 	<max_ncpus>2</max_ncpus>	
         <max_wus_to_send>1</max_wus_to_send>
@@ -122,7 +122,7 @@
             <cmd>script_assimilator --app boinc2docker --script "boinc2docker_assimilator files"</cmd>
         </daemon>
         <daemon>
-            <cmd>sample_trivial_validator -app boinc2docker</cmd>
+            <cmd>script_validator --app boinc2docker -d 3 --init_script "validation_test /home/boincadm/project/tmp_models/result.txt"</cmd>
         </daemon>
     </daemons>
 </boinc>
