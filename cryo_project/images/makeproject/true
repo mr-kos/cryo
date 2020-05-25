@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+
+import os, sys, time
+
+result_path = "/home/boincadm/project/tmp_models/result.txt"
+
+if os.path.exists(result_path):
+	print("Result is ready!")
+else:
+	print("No result!")
+

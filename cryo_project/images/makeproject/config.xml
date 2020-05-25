@@ -122,7 +122,7 @@
             <cmd>script_assimilator --app boinc2docker --script "boinc2docker_assimilator files"</cmd>
         </daemon>
         <daemon>
-            <cmd>script_validator --app boinc2docker -d 3 --init_script "validation_test /home/boincadm/project/tmp_models/result.txt"</cmd>
+	    <cmd>script_validator --app boinc2docker --init_script "validation_test /home/boincadm/project/tmp_models/result.txt" --compare_script "true"</cmd>
         </daemon>
     </daemons>
 </boinc>

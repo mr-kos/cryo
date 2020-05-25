@@ -12,30 +12,35 @@ jobs = os.listdir(upload_dir)
 
 jobs_tars = {}
 
-for folder in jobs:
-	jobs_tars[folder] = os.listdir(os.path.join(upload_dir, folder))[0]
+def submit():
+	for folder in jobs:
+		jobs_tars[folder] = os.listdir(os.path.join(upload_dir, folder))[0]
 
-for key in jobs_tars:
-	print('Extracting ', jobs_tars[key])
-	with tarfile.open(os.path.join(upload_dir, key, jobs_tars[key])) as tar:
-		#tar.extractall(os.path.join(upload_path, key))
-		members = tar.getmembers()
-		for member in members:
-			if member.name.endswith('txt'):
-				print('done')
-				tar.extract(member, models_temp_dir)
-				os.rename(os.path.join(models_temp_dir, member.name), 
-					  os.path.join(models_temp_dir, key+'_text.txt'))
+	for key in jobs_tars:
+		print('Extracting ', jobs_tars[key])
+		with tarfile.open(os.path.join(upload_dir, key, jobs_tars[key])) as tar:
+			#tar.extractall(os.path.join(upload_path, key))
+			members = tar.getmembers()
+			for member in members:
+				if member.name.endswith('txt'):
+					print('done')
+					tar.extract(member, models_temp_dir)
+					os.rename(os.path.join(models_temp_dir, member.name), 
+						  os.path.join(models_temp_dir, key+'_text.txt'))
 
-text_from_files = []
-text_files = os.listdir(models_temp_dir)
-for file in text_files:
-	with open(os.path.join(models_temp_dir, file)) as f:
-		text_from_files.append(f.read())
+	text_from_files = []
+	text_files = os.listdir(models_temp_dir)
+	for file in text_files:
+		with open(os.path.join(models_temp_dir, file)) as f:
+			text_from_files.append(f.read())
 
-result_file = ' '.join(text_from_file)
+	result_file = ' '.join(text_from_files)
 
-with open(os.path.join(result_file_path), 'w') as f:
-	f.write(result_file)
+	with open(os.path.join(result_file_path), 'w') as f:
+		f.write(result_file)
 
+if not os.path.exists(result_file_path):
+	submit()
+else:
+	print("Result already calculated!")
 #subprocess.call('./test.sh')
