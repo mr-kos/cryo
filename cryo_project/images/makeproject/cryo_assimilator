@@ -49,7 +49,7 @@ def save_prev_result():
 def inc_iter(value):
 	value += 1
 	with open(iter_path, 'w') as f:
-		f.write(value)
+		f.write(str(value))
 	return value
 
 iteration, max_iteration = check_iters()
