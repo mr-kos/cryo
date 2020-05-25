@@ -2,12 +2,15 @@
 
 import sys, os
 from datetime import date
+from shutil import copy
 
 result_filename = 'result.txt'
+prev_result_filename = 'prev_'+result_filename
 iter_filename = 'iter_num.txt'
 max_iter_filename = 'max_iter.txt'
 result_dir = '/home/boincadm/project/tmp_models/'
 result_file_path = os.path.join(result_dir, result_filename)
+prev_result_file_path = os.path.join(result_dir, prev_result_filename)
 iter_path = os.path.join(result_dir, iter_filename)
 max_iter_path = os.path.join(result_dir, max_iter_filename)
 models_temp_dir = os.path.join(result_dir, 'models')
@@ -21,7 +24,9 @@ def creating_result():
 
 	result_file = ' '.join(text_from_files)
 
-	with open(result_file_path, 'w') as f:
+	if os.path.exists(result_file_path):
+		copy(result_file_path, prev_result_file_path)
+	with open(result_file_path, 'a') as f:
 		f.write(result_file)
 
 	os.system('rm -r {}'.format(os.path.join(models_temp_dir, '*')))
@@ -38,18 +43,25 @@ def check_iters():
 
 	return iter_num, max_iter
 
+def save_prev_result():
+	os.rename(result_file_path, prev_result_file_path)
+
 def inc_iter(value):
 	value += 1
 	with open(iter_path, 'w') as f:
 		f.write(value)
+	return value
 
 iteration, max_iteration = check_iters()
 
 if iteration < max_iteration:
 	creating_result()
-	inc_iter(iteration)
-	print('Current iter = {}'.format(iteration))
+	cur_iter = inc_iter(iteration)
+	print('Current iter = {}'.format(cur_iter))
 	#TODO call proc for generate another WU
+	os.system("bin/boinc2docker_create_work.py --min_quorum 2 --target_nresults 5 "+ \
+			"python:alpine python -c 'open('/root/shared/results/hello.txt','w').write('Hello {}')'"
+			.format(cur_iter)) # TEST
 else:
 	creating_result()
 	print('Finish!!!')
