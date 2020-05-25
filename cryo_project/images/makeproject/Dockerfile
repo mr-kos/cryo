@@ -19,3 +19,5 @@ COPY --chown=1000 config_aux.xml $PROJECT_ROOT
 RUN mkdir -m 777 $PROJECT_ROOT/tmp_models
 
 COPY --chown=1000 iter_num.txt $PROJECT_ROOT/tmp_models
+
+COPY --chown=1000 max_iter.txt $PROJECT_ROOT/tmp_models

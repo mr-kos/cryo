@@ -34,7 +34,7 @@
         <daily_result_quota>500</daily_result_quota>
         <one_result_per_user_per_wu>0</one_result_per_user_per_wu>
 	<gpu_multiplier>0</gpu_multiplier>
-	<max_ncpus>2</max_ncpus>	
+	<max_ncpus>2</max_ncpus>
         <max_wus_to_send>1</max_wus_to_send>
         <max_wus_in_progress>1</max_wus_in_progress>
 	<enable_assignment>1</enable_assignment>
@@ -122,7 +122,7 @@
             <cmd>script_assimilator --app boinc2docker --script "boinc2docker_assimilator files"</cmd>
         </daemon>
         <daemon>
-	    <cmd>script_validator --app boinc2docker --init_script "validation_test /home/boincadm/project/tmp_models/result.txt" --compare_script "true"</cmd>
+	    <cmd>script_validator --app boinc2docker --init_script "validation_test files result_id" --compare_script "true"</cmd>
         </daemon>
     </daemons>
 </boinc>

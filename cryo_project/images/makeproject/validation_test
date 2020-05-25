@@ -1,46 +1,29 @@
 #!/usr/bin/env python
 
-import os, sys, time
+import os, sys
 import tarfile
-import subprocess
 
-upload_dir = '/home/boincadm/project/upload'
-models_temp_dir = '/home/boincadm/project/tmp_models'
-result_file_path = '/home/boincadm/project/tmp_models/result.txt'
+extension = '.txt'
+extract_flag = False
+result_dir = '/home/boincadm/project/tmp_models/'
+models_temp_dir = os.path.join(result_dir, 'models')
+result_path = sys.argv[1]
+result_id = sys.argv[2]
 
-jobs = os.listdir(upload_dir)
+def check_and_extract():
+	print('Extracting ', result_id, ' result')
+	with tarfile.open(result_path) as tar:
+		members = tar.getmembers()
+		for member in members:
+			if member.name.endswith(extension):
+				tar.extract(member, models_temp_dir)
+				os.rename(os.path.join(models_temp_dir, member.name),
+					os.path.join(models_temp_dir, result_id+'_result'+extension))
+				extract_flag = True
+		if extract_flag:
+			print('Model was extracted')
+		else:
+			print('There is no model file!')
+			return 0
 
-jobs_tars = {}
-
-def submit():
-	for folder in jobs:
-		jobs_tars[folder] = os.listdir(os.path.join(upload_dir, folder))[0]
-
-	for key in jobs_tars:
-		print('Extracting ', jobs_tars[key])
-		with tarfile.open(os.path.join(upload_dir, key, jobs_tars[key])) as tar:
-			#tar.extractall(os.path.join(upload_path, key))
-			members = tar.getmembers()
-			for member in members:
-				if member.name.endswith('txt'):
-					print('done')
-					tar.extract(member, models_temp_dir)
-					os.rename(os.path.join(models_temp_dir, member.name), 
-						  os.path.join(models_temp_dir, key+'_text.txt'))
-
-	text_from_files = []
-	text_files = os.listdir(models_temp_dir)
-	for file in text_files:
-		with open(os.path.join(models_temp_dir, file)) as f:
-			text_from_files.append(f.read())
-
-	result_file = ' '.join(text_from_files)
-
-	with open(os.path.join(result_file_path), 'w') as f:
-		f.write(result_file)
-
-if not os.path.exists(result_file_path):
-	submit()
-else:
-	print("Result already calculated!")
-#subprocess.call('./test.sh')
+check_and_extract()

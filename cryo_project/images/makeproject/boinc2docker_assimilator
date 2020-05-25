@@ -1,11 +1,62 @@
 #!/usr/bin/env python
 
 import sys, os
-import os.path as osp
 from datetime import date
 
+result_filename = 'result.txt'
+iter_filename = 'iter_num.txt'
+max_iter_filename = 'max_iter.txt'
+result_dir = '/home/boincadm/project/tmp_models/'
+result_file_path = os.path.join(result_dir, result_filename)
+iter_path = os.path.join(result_dir, iter_filename)
+max_iter_path = os.path.join(result_dir, max_iter_filename)
+models_temp_dir = os.path.join(result_dir, 'models')
 
-if sys.argv[1]!='--error':
+def creating_result():
+    text_from_files = []
+	text_files = os.listdir(models_temp_dir)
+	for file in text_files:
+		with open(os.path.join(models_temp_dir, file)) as f:
+			text_from_files.append(f.read())
 
-    target = osp.join('/results/boinc2docker')
-    os.system('mv %s %s'%(' '.join(sys.argv[1:]),target))
+	result_file = ' '.join(text_from_files)
+
+	with open(result_file_path, 'w') as f:
+		f.write(result_file)
+
+	os.system('rm -r {}'.format(os.path.join(models_temp_dir, '*')))
+
+def check_iters():
+	iter_num = 0
+	max_iter = 0
+
+	with open(iter_path) as f:
+		iter_num = int(f.read()[0])
+
+	with open(max_iter_path) as f:
+		max_iter = int(f.read()[0])
+
+	return iter_num, max_iter
+
+def inc_iter(value):
+	value += 1
+	with open(iter_path, 'w') as f:
+		f.write(value)
+
+iteration, max_iteration = check_iters()
+
+if iteration < max_iteration:
+	creating_result()
+	inc_iter(iteration)
+	print('Current iter = {}'.format(iteration))
+	#TODO call proc for generate another WU
+else:
+	creating_result()
+	print('Finish!!!')
+	#TODO check for last iter and get metrics of final model
+
+
+# if sys.argv[1]!='--error':
+
+#     target = osp.join('/results/boinc2docker')
+#     os.system('mv %s %s'%(' '.join(sys.argv[1:]),target))
