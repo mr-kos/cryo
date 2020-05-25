@@ -23,3 +23,5 @@ RUN mkdir -m 777 $PROJECT_ROOT/tmp_models && mkdir -m 777 $PROJECT_ROOT/tmp_mode
 COPY --chown=1000 iter_num.txt $PROJECT_ROOT/tmp_models
 
 COPY --chown=1000 max_iter.txt $PROJECT_ROOT/tmp_models
+
+RUN chmod ugo+x $PROJECT_ROOT/work_unit_generator $PROJECT_ROOT/bin/cryo_assimilator $PROJECT_ROOT/bin/cryo_validator
