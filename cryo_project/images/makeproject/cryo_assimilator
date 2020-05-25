@@ -60,7 +60,8 @@ if iteration < max_iteration:
 	print('Current iter = {}'.format(cur_iter))
 	#TODO call proc for generate another WU
 	os.system("boinc2docker_create_work.py --min_quorum 2 --target_nresults 5 "+ \
-			"python:alpine python -c 'open('/root/shared/results/hello.txt','w').write('Hello {}')'"
+			"python:alpine python -c " + \
+			"\"open('/root/shared/results/hello.txt','w').write('Hello {}')\""
 			.format(cur_iter)) # TEST
 else:
 	creating_result()
