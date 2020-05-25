@@ -29,16 +29,17 @@
         <enable_login_mustagree_termsofuse>0</enable_login_mustagree_termsofuse>
         <ignore_upload_certificates>1</ignore_upload_certificates>
         <db_passwd>${db_passwd}</db_passwd>
-        <min_sendwork_interval>6</min_sendwork_interval>
+        <min_sendwork_interval>20</min_sendwork_interval>
         <db_host>mysql</db_host>
         <daily_result_quota>500</daily_result_quota>
         <one_result_per_user_per_wu>0</one_result_per_user_per_wu>
-	<gpu_multiplier>0</gpu_multiplier>
-	<max_ncpus>2</max_ncpus>
+        <gpu_multiplier>0</gpu_multiplier>
+        <max_ncpus>2</max_ncpus>
         <max_wus_to_send>1</max_wus_to_send>
         <max_wus_in_progress>1</max_wus_in_progress>
-	<enable_assignment>1</enable_assignment>
-	<httpd_user>root</httpd_user>
+        <enable_assignment>1</enable_assignment>
+        <httpd_user>root</httpd_user>
+        <next_rpc_delay>120</next_rpc_delay>
     </config>
     <tasks>
         <task>
