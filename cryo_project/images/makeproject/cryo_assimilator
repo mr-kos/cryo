@@ -13,7 +13,7 @@ max_iter_path = os.path.join(result_dir, max_iter_filename)
 models_temp_dir = os.path.join(result_dir, 'models')
 
 def creating_result():
-    text_from_files = []
+	text_from_files = []
 	text_files = os.listdir(models_temp_dir)
 	for file in text_files:
 		with open(os.path.join(models_temp_dir, file)) as f:
