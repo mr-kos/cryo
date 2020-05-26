@@ -3,23 +3,38 @@
 import os, sys
 import tarfile
 
-extension = '.txt'
+model_extension = '.txt'
+log_extension = '.log'
 extract_flag = False
 result_dir = '/home/boincadm/project/tmp_models/'
+iter_filename = 'iter_num.txt'
+iter_path = os.path.join(result_dir, iter_filename)
 models_temp_dir = os.path.join(result_dir, 'models')
+logs_dir = os.path.join(result_dir, 'logs')
 result_path = sys.argv[1]
 result_id = sys.argv[2]
 
 def check_and_extract():
+
+	iter_num = 0
+
 	print('Extracting ', result_id, ' result')
+
+	with open(iter_path) as f:
+		iter_num = int(f.read()[0])
+
 	with tarfile.open(result_path) as tar:
 		members = tar.getmembers()
 		for member in members:
-			if member.name.endswith(extension):
+			if member.name.endswith(model_extension):
 				tar.extract(member, models_temp_dir)
 				os.rename(os.path.join(models_temp_dir, member.name),
-					os.path.join(models_temp_dir, result_id+'_result'+extension))
+					os.path.join(models_temp_dir, result_id+'_model'+model_extension))
 				extract_flag = True
+			if member.name.endswith(log_extension):
+				tar.extract(member, logs_dir)
+				os.rename(os.path.join(logs_dir, member.name),
+					os.path.join(logs_dir, str(iter_num)+'_'+result_id+'_log'+log_extension))
 		if extract_flag:
 			print('Model was extracted')
 		else:
