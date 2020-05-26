@@ -3,7 +3,7 @@
 <max_jobs_in_progress>
 	<project>
 		<total_limit>
-			<jobs>2</jobs>
+			<jobs>1</jobs>
 		</total_limit>
 	</project>
 </max_jobs_in_progress>
