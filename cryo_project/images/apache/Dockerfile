@@ -4,3 +4,6 @@ RUN mkdir /results && mkdir -m 777 /results/boinc2docker
 
 RUN apt update && apt install -y python3 && apt install -y python3-pip && pip3 install --upgrade pip
 
+COPY whls  /home/whls
+
+RUN python3 /home/whls/setup.py
