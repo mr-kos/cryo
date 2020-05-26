@@ -18,7 +18,7 @@ COPY --chown=1000 cryo-client $PROJECT_ROOT/cryo-client
 
 COPY --chown=1000 config_aux.xml $PROJECT_ROOT
 
-RUN mkdir -m 777 $PROJECT_ROOT/tmp_models && mkdir -m 777 $PROJECT_ROOT/tmp_models/models
+RUN mkdir -m 777 $PROJECT_ROOT/tmp_models && mkdir -m 777 $PROJECT_ROOT/tmp_models/models && mkdir -m 777 $PROJECT_ROOT/tmp_models/logs
 
 COPY --chown=1000 iter_num.txt $PROJECT_ROOT/tmp_models
 
