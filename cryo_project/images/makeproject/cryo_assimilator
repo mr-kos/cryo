@@ -21,7 +21,7 @@ iter_path = os.path.join(result_dir, iter_filename)
 max_iter_path = os.path.join(result_dir, max_iter_filename)
 models_temp_dir = os.path.join(result_dir, 'models')
 global_model_path = os.path.join(client_dir, 'src/global_tcnn2_crio_2.h5')
-prev_global_model_path = os.path.join(client_dir, 'src/prev_global_tcnn2_crio_2.h5')
+prev_global_model_path = os.path.join(result_dir, 'prev_tcnn2_crio_2.h5')
 
 def creating_result():
 	text_from_files = []
@@ -40,13 +40,18 @@ def creating_result():
 	os.system('rm -r {}'.format(os.path.join(models_temp_dir, '*')))
 
 def global_model_update():
+	iter_num = 0
 	local_models = []
 	models_filenames = os.listdir(models_temp_dir)
 
 	global_model = load_model(global_model_path)
 
+	with open(iter_path) as f:
+		iter_num = int(f.read()[0])
+
+
 	if os.path.exists(global_model_path):
-		os.rename(global_model_path, prev_global_model_path)
+		os.rename(global_model_path, os.path.join(result_dir, str(iter_num)+'_prev_tcnn2_crio_2.h5'))
 
 	for model_name in models_filenames:
 		tmp_model = load_model(os.path.join(models_temp_dir, model_name))
@@ -92,7 +97,7 @@ if iteration < max_iteration:
 	os.chdir(client_dir)
 	os.system("docker build -t ozon67/cryo-client:test .")
 	os.chdir(bin_dir)
-	os.system("bin/boinc2docker_create_work.py --min_quorum 2 --target_nresults 4 ozon67/cryo-client:test")
+	os.system("boinc2docker_create_work.py --min_quorum 3 --target_nresults 5 ozon67/cryo-client:test")
 	# os.system("boinc2docker_create_work.py --min_quorum 2 --target_nresults 5 "+ \
 	# 		"python:alpine python -c " + \
 	# 		"\"open('/root/shared/results/hello.txt','w').write('Hello {}')\""

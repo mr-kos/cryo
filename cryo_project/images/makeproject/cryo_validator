@@ -16,6 +16,8 @@ result_id = sys.argv[2]
 
 def check_and_extract():
 
+	extract_flag=False
+
 	iter_num = 0
 
 	print('Extracting ', result_id, ' result')
