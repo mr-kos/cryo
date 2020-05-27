@@ -3,6 +3,8 @@
 import sys, os
 from datetime import date
 from shutil import copy
+import numpy as np
+import time
 
 from tensorflow import keras
 from tensorflow.keras.models import load_model # basic class for specifying and training a neural network
@@ -45,6 +47,8 @@ def global_model_update():
 	models_filenames = os.listdir(models_temp_dir)
 
 	global_model = load_model(global_model_path)
+	gl_weights = np.array(global_model.get_weights())
+	diff_weights = []
 
 	with open(iter_path) as f:
 		iter_num = int(f.read()[0])
@@ -55,11 +59,11 @@ def global_model_update():
 
 	for model_name in models_filenames:
 		tmp_model = load_model(os.path.join(models_temp_dir, model_name))
-		gl_weights = global_model.get_weights()
-		tmp_weights = tmp_model.get_weights()
-		diff_weight = global_model.get_weights() - tmp_model.get_weights()
-		global_model.set_weights(gl_weights + diff_weight)
+		tmp_weights = np.array(tmp_model.get_weights())
+		diff_weights.append(gl_weights - tmp_weights)
 		del tmp_model
+
+	global_model.set_weights( list( gl_weights - np.sum( np.array(diff_weights), axis=0 ) / len(diff_weights) ) )
 
 	global_model.save(global_model_path)
 
@@ -96,8 +100,10 @@ if iteration < max_iteration:
 	#TODO call proc for generate another WU
 	os.chdir(client_dir)
 	os.system("docker build -t ozon67/cryo-client:test .")
-	os.chdir(bin_dir)
-	os.system("boinc2docker_create_work.py --min_quorum 3 --target_nresults 5 ozon67/cryo-client:test")
+	os.chdir("/home/boincadm/project")
+	time.sleep(60)
+	os.system("./work_unit_generator 2 4")
+	#os.system("boinc2docker_create_work.py --min_quorum 3 --target_nresults 5 ozon67/cryo-client:test")
 	# os.system("boinc2docker_create_work.py --min_quorum 2 --target_nresults 5 "+ \
 	# 		"python:alpine python -c " + \
 	# 		"\"open('/root/shared/results/hello.txt','w').write('Hello {}')\""

@@ -3,7 +3,7 @@
 import os, sys
 import tarfile
 
-model_extension = '.txt'
+model_extension = '.h5'
 log_extension = '.log'
 extract_flag = False
 result_dir = '/home/boincadm/project/tmp_models/'
@@ -36,7 +36,7 @@ def check_and_extract():
 			if member.name.endswith(log_extension):
 				tar.extract(member, logs_dir)
 				os.rename(os.path.join(logs_dir, member.name),
-					os.path.join(logs_dir, str(iter_num)+'_'+result_id+'_log'+log_extension))
+					os.path.join(logs_dir, str(iter_num)+'_'+result_id+'_'+member.name))
 		if extract_flag:
 			print('Model was extracted')
 		else:
