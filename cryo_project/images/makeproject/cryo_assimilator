@@ -22,8 +22,8 @@ prev_result_file_path = os.path.join(result_dir, prev_result_filename)
 iter_path = os.path.join(result_dir, iter_filename)
 max_iter_path = os.path.join(result_dir, max_iter_filename)
 models_temp_dir = os.path.join(result_dir, 'models')
-global_model_path = os.path.join(client_dir, 'src/global_tcnn2_crio_2.h5')
-prev_global_model_path = os.path.join(result_dir, 'prev_tcnn2_crio_2.h5')
+global_model_path = os.path.join(client_dir, 'src/global_tcnn2_crio_3.h5')
+prev_global_model_path = os.path.join(result_dir, 'prev_tcnn2_crio_3.h5')
 
 def creating_result():
 	text_from_files = []
@@ -55,7 +55,7 @@ def global_model_update():
 
 
 	if os.path.exists(global_model_path):
-		os.rename(global_model_path, os.path.join(result_dir, str(iter_num)+'_prev_tcnn2_crio_2.h5'))
+		os.rename(global_model_path, os.path.join(result_dir, str(iter_num)+'_prev_tcnn2_crio_3.h5'))
 
 	for model_name in models_filenames:
 		tmp_model = load_model(os.path.join(models_temp_dir, model_name))
@@ -102,7 +102,7 @@ if iteration < max_iteration:
 	os.system("docker build -t ozon67/cryo-client:test .")
 	os.chdir("/home/boincadm/project")
 	time.sleep(60)
-	os.system("./work_unit_generator 2 4")
+	os.system("./work_unit_generator 3 6")
 	#os.system("boinc2docker_create_work.py --min_quorum 3 --target_nresults 5 ozon67/cryo-client:test")
 	# os.system("boinc2docker_create_work.py --min_quorum 2 --target_nresults 5 "+ \
 	# 		"python:alpine python -c " + \
