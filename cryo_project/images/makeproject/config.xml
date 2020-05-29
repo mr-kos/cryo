@@ -39,7 +39,7 @@
         <max_wus_in_progress>1</max_wus_in_progress>
         <enable_assignment>1</enable_assignment>
         <httpd_user>root</httpd_user>
-        <next_rpc_delay>120</next_rpc_delay>
+        <next_rpc_delay>180</next_rpc_delay>
     </config>
     <tasks>
         <task>
