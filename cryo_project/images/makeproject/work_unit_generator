@@ -4,5 +4,6 @@ import os, sys
 min_quorum = sys.argv[1]
 target_nresults = sys.argv[2]
 
-os.system('bin/boinc2docker_create_work.py --min_quorum {} --target_nresults {} ozon67/cryo-client:test'
+os.system("bin/boinc2docker_create_work.py --rsc_disk_bound 2147483648 --rsc_memory_bound 4831838208 " +\
+	"--min_quorum {0} --target_nresults {1} --max_error_results {0} ozon67/cryo-client:test"
             .format(min_quorum, target_nresults))

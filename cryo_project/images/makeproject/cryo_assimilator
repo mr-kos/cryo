@@ -9,7 +9,6 @@ import time
 from tensorflow import keras
 from tensorflow.keras.models import load_model # basic class for specifying and training a neural network
 
-
 result_filename = 'result.txt'
 prev_result_filename = 'prev_'+result_filename
 iter_filename = 'iter_num.txt'
@@ -90,32 +89,24 @@ def inc_iter(value):
 		f.write(str(value))
 	return value
 
-iteration, max_iteration = check_iters()
+if len(sys.argv) > 1 and sys.argv[1]!='--error':
 
-if iteration < max_iteration:
-	# creating_result()
-	global_model_update()
-	cur_iter = inc_iter(iteration)
-	print('Current iter = {}'.format(cur_iter))
-	#TODO call proc for generate another WU
-	os.chdir(client_dir)
-	os.system("docker build -t ozon67/cryo-client:test .")
-	os.chdir("/home/boincadm/project")
-	time.sleep(60)
-	os.system("./work_unit_generator 3 6")
-	#os.system("boinc2docker_create_work.py --min_quorum 3 --target_nresults 5 ozon67/cryo-client:test")
-	# os.system("boinc2docker_create_work.py --min_quorum 2 --target_nresults 5 "+ \
-	# 		"python:alpine python -c " + \
-	# 		"\"open('/root/shared/results/hello.txt','w').write('Hello {}')\""
-	# 		.format(cur_iter)) # TEST
-else:
-	# creating_result()
-	global_model_update()
-	print('Finish!!!')
+	iteration, max_iteration = check_iters()
+
+	if iteration < max_iteration:
+		# creating_result()
+		global_model_update()
+		cur_iter = inc_iter(iteration)
+		print('Current iter = {}'.format(cur_iter))
+		os.chdir(client_dir)
+		os.system("docker build -t ozon67/cryo-client:test .")
+		os.chdir("/home/boincadm/project")
+		time.sleep(60)
+		os.system("./work_unit_generator 3 6")
+
+	else:
+		global_model_update()
+		print('Finish!!!')
 	#TODO check for last iter and get metrics of final model
-
-
-# if sys.argv[1]!='--error':
-
-#     target = osp.join('/results/boinc2docker')
-#     os.system('mv %s %s'%(' '.join(sys.argv[1:]),target))
+else:
+	print("Error results!")
